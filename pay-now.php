@@ -42,7 +42,7 @@
       </div>
       <div class='row'>
         <form accept-charset="UTF-8" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="<?= STRIPE_PUBLIC_KEY ?>" id="payment-form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓" /><input name="_method" type="hidden" value="PUT" /><input name="authenticity_token" type="hidden" value="qLZ9cScer7ZxqulsUWazw4x3cSEzv899SP/7ThPCOV8=" /></div>
-          <div class='col-md-4'>
+          <div class='col-md-6'>
             <div class='form-row'>
               <div class='col-xs-6 form-group'>
                 <label class='control-label'>Order Number</label>
@@ -75,7 +75,7 @@
               </div>
             </div>
           </div>
-          <div class='col-md-4'>
+          <div class='col-md-6'>
             <div class='form-row'>
               <div class='col-xs-12 form-group required'>
                 <label class='control-label'>Name on Card</label>
