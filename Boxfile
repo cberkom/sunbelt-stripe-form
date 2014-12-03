@@ -1,0 +1,5 @@
+web1:
+  name: web1
+  php_version: 5.4.14
+  php_extensions:
+    - curl
