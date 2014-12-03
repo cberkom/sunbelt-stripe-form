@@ -1,3 +1,4 @@
+// Validate form inputs
 $(function() {
   $('form.require-validation').bind('submit', function(e) {
     var $form         = $(e.target).closest('form'),
@@ -5,7 +6,7 @@ $(function() {
                          'input[type=text]', 'input[type=file]',
                          'textarea'].join(', '),
         $inputs       = $form.find('.required').find(inputSelector),
-        $errorMessage = $form.find('div.error'),
+        $errorMessage = $form.find('div.validation-error'),
         valid         = true;
 
     $errorMessage.addClass('hide');
@@ -21,6 +22,7 @@ $(function() {
   });
 });
 
+// Submit card data to Stripe, and return stripe_token to the server for processing
 $(function() {
   var $form = $("#payment-form");
 
@@ -39,7 +41,7 @@ $(function() {
 
   function stripeResponseHandler(status, response) {
     if (response.error) {
-      $('.error')
+      $('.validation-error')
         .removeClass('hide')
         .find('.alert')
         .text(response.error.message);
@@ -48,7 +50,7 @@ $(function() {
       var token = response['id'];
       // insert the token into the form so it gets submitted to the server
       $form.find('input[type=text]').empty();
-      $form.append("<input type='hidden' name='reservation[stripe_token]' value='" + token + "'/>");
+      $form.append("<input type='hidden' name='stripe_token' value='" + token + "'/>");
       $form.get(0).submit();
     }
   }

@@ -1,16 +1,11 @@
 <?php 
-  require_once('./stripe/lib/Stripe.php');
-  require_once('./api-keys.php');
-  if(!empty($_POST)) {
-    Stripe::setApiKey(STRIPE_SECRET_KEY);
+  require_once('./require_all.php');
+  $server_response = false;
 
-    // Stripe_Charge::create(array(
-    //   "amount" => 400,
-    //   "currency" => "usd",
-    //   "card" => "tok_5ENe70lZ0EiQII", // obtained with Stripe.js
-    //   "description" => "Charge for test@example.com"
-    // ));
+  if(!empty($_POST)) {
+    $server_response = create_and_charge_customer($_POST);
   }
+
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,14 +27,21 @@
   <body>
     <div class="container">
       <div class='row'>
-        <div class='col-md-8 error form-group hide'>
+        <?php if($server_response) : ?>
+          <div class='col-md-8 server-message form-group'>
+            <div class='<?= ($server_response['success']) ? 'alert-success' : 'alert-danger' ?> alert'>
+              <?= $server_response['message'] ?>
+            </div>
+          </div>
+        <?php endif; ?>
+        <div class='col-md-8 validation-error form-group hide'>
           <div class='alert-danger alert'>
             Please correct the errors and try again.
           </div>
         </div>
       </div>
       <div class='row'>
-        <form accept-charset="UTF-8" action="/" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="<?= STRIPE_PUBLIC_KEY ?>" id="payment-form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓" /><input name="_method" type="hidden" value="PUT" /><input name="authenticity_token" type="hidden" value="qLZ9cScer7ZxqulsUWazw4x3cSEzv899SP/7ThPCOV8=" /></div>
+        <form accept-charset="UTF-8" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="<?= STRIPE_PUBLIC_KEY ?>" id="payment-form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓" /><input name="_method" type="hidden" value="PUT" /><input name="authenticity_token" type="hidden" value="qLZ9cScer7ZxqulsUWazw4x3cSEzv899SP/7ThPCOV8=" /></div>
           <div class='col-md-4'>
             <div class='form-row'>
               <div class='col-xs-6 form-group'>
@@ -54,7 +56,10 @@
             <div class='form-row'>
               <div class='col-xs-12 form-group required'>
                 <label class='control-label'>Payment Amount</label>
-                <input name='email_address' class='form-control' size='4' type='text'>
+                <div class="input-group">
+                  <input name='amount' class='form-control' size='4' type='text'>
+                  <span class="input-group-addon">.00</span>
+                </div>
               </div>
             </div>
             <div class='form-row'>
