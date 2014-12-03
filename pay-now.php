@@ -28,13 +28,13 @@
     <div class="container">
       <div class='row'>
         <?php if($server_response) : ?>
-          <div class='col-md-8 server-message form-group'>
+          <div class='col-md-12 server-message form-group'>
             <div class='<?= ($server_response['success']) ? 'alert-success' : 'alert-danger' ?> alert'>
               <?= $server_response['message'] ?>
             </div>
           </div>
         <?php endif; ?>
-        <div class='col-md-8 validation-error form-group hide'>
+        <div class='col-md-12 validation-error form-group hide'>
           <div class='alert-danger alert'>
             Please correct the errors and try again.
           </div>
